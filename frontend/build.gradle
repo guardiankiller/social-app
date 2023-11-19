@@ -1,0 +1,44 @@
+plugins {
+  id "com.github.node-gradle.node" version '7.0.1'
+}
+
+node {
+  version = "18.17.1"
+  download = true
+}
+
+var task = tasks.register('env.bat') {
+  var nodeSetup = tasks.named('nodeSetup').get()
+  var npmSetup = tasks.named('npmSetup').get()
+
+  dependsOn nodeSetup
+  npmSetup.dependsOn(it)
+
+  inputs.files(nodeSetup.outputs.files)
+  outputs.file("$projectDir/env.bat")
+  doLast {
+    outputs.files.singleFile.write("""@echo off
+set PATH=${inputs.files.singleFile};%PATH%
+""")
+  }
+}
+
+tasks.named('npmSetup').get().dependsOn(task.get())
+
+tasks.register('ngBuild', NpxTask) {
+  dependsOn npmInstall
+  command = 'ng'
+  args = ['build', '--c=production']
+  inputs.dir('src')
+  inputs.dir(fileTree("node_modules").exclude(".cache"))
+  outputs.dir('dist')
+}
+
+tasks.register('ngServe', NpxTask) {
+  dependsOn npmInstall
+  command = 'ng'
+  args = ['serve']
+  inputs.dir('src')
+  inputs.dir(fileTree("node_modules").exclude(".cache"))
+  outputs.dir('dist')
+}
