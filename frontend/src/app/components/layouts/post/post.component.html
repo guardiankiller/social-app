@@ -1,0 +1,29 @@
+<mat-card>
+    <mat-card-header>
+        <img mat-card-avatar src="../../../../assets/profile.jpg"/>
+        <div style="display: flex; flex-direction: column; margin-left: 5px;">
+            <span style="font-size: 1.2em; font-weight: 500;">Николай Проданов</span>
+            <span>1 ноември в 18:37 ч.</span>
+        </div>
+    </mat-card-header>
+    <mat-card-content>
+        <p *ngIf="smallText">{{smallText}} 
+            <button mat-button (click)="expand()">Вижте Повече</button>
+        </p>
+        <p *ngIf="!smallText">{{text}}</p>
+    </mat-card-content>
+    <img mat-card-image *ngIf="image" [src]="image"/>
+    <mat-card-actions style="display: flex; gap: 10px; flex-direction: column; align-items: start;">
+        <div style="display: flex; gap: 10px;">
+            <button mat-raised-button color="primary"><mat-icon>thumb_up</mat-icon>Харесване</button>
+            <button mat-raised-button color="accent"><mat-icon>comment</mat-icon>Коментари</button>
+        </div>
+        <div style="display: flex; flex-direction: row; gap: 5px; align-items: center;  width: 100%;">
+            <img mat-card-avatar src="../../../../assets/profile.jpg"/>
+            <mat-form-field style="flex-grow: 1;">
+                <input matInput placeholder="Напишете коментар ..."/>
+            </mat-form-field>
+            <button mat-icon-button style="align-self: start; margin-top: 5px;"><mat-icon>add_comment</mat-icon></button>
+        </div>
+    </mat-card-actions>
+</mat-card>
