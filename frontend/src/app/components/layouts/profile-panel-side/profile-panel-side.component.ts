@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-profile-panel-side',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./profile-panel-side.component.scss']
 })
 export class ProfilePanelSideComponent {
-
+  @Input() user?: User
 }
