@@ -12,7 +12,6 @@ import { MatListModule } from "@angular/material/list"
 
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 
-
 let modules: any[] = [
     MatToolbarModule,
     MatFormFieldModule,

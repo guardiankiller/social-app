@@ -1,0 +1,45 @@
+.container {
+    margin-top: 50px; 
+    margin-left: auto; 
+    margin-right: auto;
+
+    width: 1280px; 
+    
+    display: flex; 
+    align-items: center; 
+    flex-direction: column; 
+    gap: 30px; 
+}
+
+.profile-panel-wrapper {
+    width: 100%;
+}
+
+.profile-panel {
+    display: flex; 
+    align-items: center; 
+    gap: 20px;
+}
+
+.profile-panel-image {
+    border-radius: 50% !important;
+}
+
+.profile-panel-name {
+    display: flex; 
+    flex-direction: column; 
+    justify-content: baseline;
+
+    * {
+        margin-bottom: 0;
+    }
+}
+
+.profile-panel-edit {
+    align-self: end; 
+    margin-left: auto;
+}
+
+.posts-header {
+    padding-bottom: 16px;
+}

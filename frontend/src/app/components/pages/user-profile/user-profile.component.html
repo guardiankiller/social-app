@@ -1,0 +1,40 @@
+<section class="container">
+    <mat-card style="width: 100%;">
+        <mat-card-content class="profile-panel">
+            <img src="../../../../assets/profile.jpg" mat-card-lg-image class="profile-panel-image"/>
+            <div class="profile-panel-name">
+                <span class="mat-headline-4">Николай Проданов</span>
+                <span class="mat-body">255 приятели</span>
+            </div>
+            <button mat-raised-button color="primary"class="profile-panel-edit">
+                <mat-icon>edit</mat-icon>Редактиране на профила
+            </button>
+        </mat-card-content>
+    </mat-card>
+    <section style="align-self: start; display: flex; gap: 30px; width: 100%;">
+        <mat-card style="flex-shrink: 1; margin-bottom: auto;">
+            <mat-card-header>
+                <mat-card-title>Въведение</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-list>
+                    <mat-list-item>Роден на <b>14/04/1998</b></mat-list-item>
+                    <mat-list-item>Електронна поща <b>nikiavatar98@abv.bg</b></mat-list-item>
+                </mat-list>
+            </mat-card-content>
+        </mat-card>
+        <section  style="flex-grow: 1; display: flex; flex-direction: column; gap: 5px;">
+            <mat-card>
+                <mat-card-header class="posts-header">
+                    <mat-card-title>Публицкации</mat-card-title>
+                </mat-card-header>
+            </mat-card>
+            <app-post/>
+            <app-post/>
+            <app-post/>
+        </section>
+    </section>
+    <section style="align-self: start;">
+
+    </section>
+</section>
