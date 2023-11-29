@@ -13,13 +13,17 @@ import { PostComponent } from './components/layouts/post/post.component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { ProfilePanelMainComponent } from './components/layouts/profile-panel-main/profile-panel-main.component';
+import { ProfilePanelSideComponent } from './components/layouts/profile-panel-side/profile-panel-side.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
     UserProfileComponent,
-    PostComponent
+    PostComponent,
+    ProfilePanelMainComponent,
+    ProfilePanelSideComponent
   ],
   imports: [
     BrowserModule,
