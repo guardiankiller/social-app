@@ -14,7 +14,7 @@ import { PostComponent } from './components/layouts/post/post.component';
 @NgModule({
   declarations: [
     AppComponent,
-    RegisterComponent
+    RegisterComponent,
     UserProfileComponent,
     PostComponent
   ],
