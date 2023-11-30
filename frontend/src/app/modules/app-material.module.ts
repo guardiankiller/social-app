@@ -9,6 +9,8 @@ import { MatRadioModule } from "@angular/material/radio"
 import { MatDatepickerModule } from "@angular/material/datepicker"
 import { MatNativeDateModule } from "@angular/material/core"
 import { MatListModule } from "@angular/material/list"
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner"
+import { MatSnackBarModule } from "@angular/material/snack-bar"
 
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 
@@ -23,6 +25,8 @@ let modules: any[] = [
     MatDatepickerModule,
     MatNativeDateModule,
     MatListModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
 ]
 
 @NgModule({

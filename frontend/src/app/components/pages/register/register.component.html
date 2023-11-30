@@ -24,8 +24,8 @@
             <mat-error *ngIf="email.hasError('email')">Email is invalid</mat-error>
         </mat-form-field>
         <mat-radio-group formControlName="gender">
-            <mat-radio-button value="male">Male</mat-radio-button>
-            <mat-radio-button value="female">Female</mat-radio-button>
+            <mat-radio-button value="MALE">Male</mat-radio-button>
+            <mat-radio-button value="FEMALE">Female</mat-radio-button>
         </mat-radio-group>
         <mat-form-field appearance="outline">
             <mat-label>Date of birth</mat-label>
@@ -34,7 +34,14 @@
             <mat-datepicker-toggle matIconSuffix [for]="picker"/>
             <mat-datepicker #picker/>
         </mat-form-field>
-        <button mat-raised-button color="primary" (click)="submit()">Register</button>
+        <button mat-raised-button 
+            color="primary" 
+            [class.spinner]="isLoading()" 
+            (click)="submit()"
+            [disabled]="isLoading() || !isValid"
+        >
+            <span *ngIf="!isLoading()">Register</span>
+        </button>
         <span style="text-align: center; margin-top: 10px;"><u>&copy; Copyright 2023</u></span>
         </form>
     </mat-card-content>

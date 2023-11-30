@@ -15,6 +15,10 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { ProfilePanelMainComponent } from './components/layouts/profile-panel-main/profile-panel-main.component';
 import { ProfilePanelSideComponent } from './components/layouts/profile-panel-side/profile-panel-side.component';
+import { UserProfileEffects } from './state/user-profile/user-profile.effects';
+import { userProfileReducer } from './state/user-profile/user-profile.reducers';
+import { userRegisterReducer } from './state/user-register/user-register.reducers';
+import { UserRegisterEffects } from './state/user-register/user-register.effects';
 
 @NgModule({
   declarations: [
@@ -32,8 +36,8 @@ import { ProfilePanelSideComponent } from './components/layouts/profile-panel-si
     AppMaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    EffectsModule.forRoot([]),
-    StoreModule.forRoot({}, {}),
+    EffectsModule.forRoot([UserProfileEffects, UserRegisterEffects]),
+    StoreModule.forRoot({userProfileInfo: userProfileReducer, userRegister: userRegisterReducer}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
   ],
   providers: [],
