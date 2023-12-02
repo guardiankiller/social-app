@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs'
+import { Observable, delay, of } from 'rxjs'
 import { User } from '../models/user.model';
 import { UserRegister } from '../models/user-register.model';
+import { MockServerService } from './mock-server.service';
+import { LoginInfo } from '../models/login.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +13,22 @@ export class UserProfileService {
   state = new Map<string, User>();
 
   failFirst = true;
+
+  constructor(private server: MockServerService) {
+
+  }
+
+  verifyLoginInfo(info: LoginInfo): Observable<boolean> {
+    return this.server.authenticate(info.username, info.password);
+  }
   
   loadUserProfileData(): Observable<User> {
     return new Observable(subscriber => {
       setTimeout(()=>{
-        if(this.failFirst) {
-          this.failFirst = false;
-          subscriber.error(new Error('Failed to connect to server'));
-        }
+        // if(this.failFirst) {
+        //   this.failFirst = false;
+        //   subscriber.error(new Error('Failed to connect to server'));
+        // }
         subscriber.next({
           firstName: "Николай",
           lastName: "Проданов",
@@ -30,8 +40,12 @@ export class UserProfileService {
           gender: 'MALE'
         });
         subscriber.complete();
-      }, 5000);
+      }, 0);
     });
+  }
+
+  loadUserProfileData2(username: string): Observable<User | undefined> {
+    return this.server.getUser(username);
   }
 
   registerUser(register: UserRegister) {

@@ -1,0 +1,26 @@
+<mat-card class="mat-elevation-z2 mat-mdc-elevation-specific container">
+    <mat-card-content>
+        <form class="form" [formGroup]="form">
+            <span class="mat-headline-5" style="text-align: center;">Login</span>
+        <mat-form-field appearance="outline">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username"/>
+            <mat-error *ngIf="username.hasError('required')">Username field is required</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input type="password" matInput formControlName="password"/>
+            <mat-error *ngIf="password.hasError('required')">Password field is required</mat-error>
+        </mat-form-field>
+        <button mat-raised-button 
+            color="primary" 
+            [class.spinner]="isPending()" 
+            (click)="submit()"
+            [disabled]="isPending() || !isValid"
+        >
+            <span *ngIf="!isPending()">Login</span>
+        </button>
+        <span class="copyright"><u>&copy; Copyright 2023</u></span>
+        </form>
+    </mat-card-content>
+</mat-card>

@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store'
 import { User } from 'src/app/models/user.model'
-import { loadUserProfileInfo, loadUserProfileInfoFail, loadUserProfileInfoSuccess } from './user-profile.actions'
+import { loadUserProfileInfo, loadUserProfileInfoFail, loadUserProfileInfoNotFound, loadUserProfileInfoSuccess } from './user-profile.actions'
 import { Status } from 'src/app/models/status.model'
 
 export interface UserProfileState {
@@ -18,5 +18,6 @@ export const userProfileReducer = createReducer(
     on(loadUserProfileInfo, state => ({ ...state, status: Status.LOADING})),
     on(loadUserProfileInfoSuccess, (state, { profile }) => ({ ...state, profile, status: Status.SUCCESS})),
     on(loadUserProfileInfoFail, (state, { error }) => ({ ...state, error, status: Status.FAIL})),
+    on(loadUserProfileInfoNotFound, (state, { error }) => ({ ...state, error, status: Status.NOT_FOUND})),
 );
 

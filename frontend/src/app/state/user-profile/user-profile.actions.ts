@@ -2,7 +2,8 @@ import { createAction, props } from '@ngrx/store'
 import { User } from '../../models/user.model';
 
 export const loadUserProfileInfo = createAction(
-    '[User profile] Load user profile info'
+    '[User profile] Load user profile info',
+    props<{username: string}>()
 );
 
 export const loadUserProfileInfoSuccess = createAction(
@@ -15,3 +16,7 @@ export const loadUserProfileInfoFail = createAction(
     props<{error: Error}>()
 );
 
+export const loadUserProfileInfoNotFound = createAction(
+    '[User profile] Load user profile not found',
+    props<{error: Error}>()
+);

@@ -19,6 +19,8 @@ import { UserProfileEffects } from './state/user-profile/user-profile.effects';
 import { userProfileReducer } from './state/user-profile/user-profile.reducers';
 import { userRegisterReducer } from './state/user-register/user-register.reducers';
 import { UserRegisterEffects } from './state/user-register/user-register.effects';
+import { LoginPageComponent } from './components/pages/login-page/login-page.component';
+import { LoginProfilerEffects, loginFail, loginProfileReducer } from './state/login-profile/login-profile.reducers';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { UserRegisterEffects } from './state/user-register/user-register.effects
     UserProfileComponent,
     PostComponent,
     ProfilePanelMainComponent,
-    ProfilePanelSideComponent
+    ProfilePanelSideComponent,
+    LoginPageComponent
   ],
   imports: [
     BrowserModule,
@@ -36,8 +39,12 @@ import { UserRegisterEffects } from './state/user-register/user-register.effects
     AppMaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    EffectsModule.forRoot([UserProfileEffects, UserRegisterEffects]),
-    StoreModule.forRoot({userProfileInfo: userProfileReducer, userRegister: userRegisterReducer}),
+    EffectsModule.forRoot([UserProfileEffects, UserRegisterEffects, LoginProfilerEffects]),
+    StoreModule.forRoot({
+      userProfileInfo: userProfileReducer, 
+      userRegister: userRegisterReducer,
+      loginInfo: loginProfileReducer
+    }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
   ],
   providers: [],

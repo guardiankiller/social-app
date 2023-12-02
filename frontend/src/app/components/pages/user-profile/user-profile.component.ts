@@ -1,4 +1,4 @@
-import { Component, computed, effect } from '@angular/core';
+import { Component, computed, effect, Input, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { asapScheduler } from 'rxjs';
@@ -13,7 +13,9 @@ import { selectUserProfileError, selectUserProfileInfo, selectUserProfileStatus 
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss']
 })
-export class UserProfileComponent {
+export class UserProfileComponent implements OnInit{
+
+  @Input({required: true}) username: string = ''
 
   profile = this.store.selectSignal(selectUserProfileInfo);
 
@@ -29,20 +31,16 @@ export class UserProfileComponent {
 
   isFailed = computed(() => this.status() == Status.FAIL);
 
+  isNotFound = computed(() => this.status() == Status.NOT_FOUND);
+
   constructor(private store: Store<AppState>, private bar: MatSnackBar) {
-    if(this.isFailed()) {
-      this.store.dispatch(loadUserProfileInfo());
-    }
     effect(() => {
-      if(this.isInit()) {
-        console.log('[Component] Load profile info');
-        asapScheduler.schedule(() => this.store.dispatch(loadUserProfileInfo()));
-      }
-    });
-    effect(() => {
-      if(this.isFailed()) {
+      if(this.isFailed() || this.isNotFound()) {
         this.bar.open(this.error()?.message || 'Unkown Error','OK');
       }
     });
+  }
+  ngOnInit(): void {
+    this.store.dispatch(loadUserProfileInfo({ username: this.username }))
   }
 }
