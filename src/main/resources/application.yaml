@@ -4,7 +4,14 @@ spring:
     username: root
     password: misho.27091968
 
-  liquibase.change-log: classpath:db/changelog-master.xml
+  liquibase:
+    change-log: classpath:db/changelog-master.xml
+    enabled: true
 
     #JPA Settings
-  jpa.hibernate.ddl_auto: create
+  jpa:
+    hibernate.ddl_auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
