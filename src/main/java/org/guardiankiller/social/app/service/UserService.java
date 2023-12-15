@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-//Create user
     void register(UserCreateDTO createDTO);
+
     List<UserResultDTO> getAllUsers();
 
-    public Optional<UserFullDTO> getUserByUsername(String usernameId);
+    Optional<UserFullDTO> getUserByUsername(String usernameId);
 
     void deleteUserByUsername(String usernameId);
 

@@ -17,11 +17,12 @@ public interface UserRepo extends JpaRepository<User, String> {
         }
         return usernameExistsInt(newUsername);
     }
+
     @Query("SELECT count (*) > 0 FROM User WHERE userEmail = :newEmail")
     boolean emailExistsInt(@Param("email") String newEmail);
 
-    default boolean emailExists(String email){
-        if (email == null){
+    default boolean emailExists(String email) {
+        if (email == null) {
             return false;
         }
         return emailExistsInt(email);
