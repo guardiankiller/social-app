@@ -18,8 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 @Service
@@ -198,6 +200,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                    .findById(username)
                    .map(user -> passwordEncoder.matches(password, user.getHash()))
                    .orElse(false);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username, LocalDateTime verifyDate) {
+        var user = userRepo
+                       .findById(username)
+                       .orElseThrow(()->new UsernameNotFoundException("Username not found"));
+        if(user.getUpdatedDateTime().minusMinutes(10).isAfter(verifyDate)) {
+            throw new ServerException("Token expired", HttpStatus.UNAUTHORIZED);
+        }
+        return new org.springframework.security.core.userdetails
+                       .User(user.getUsername(), user.getHash(), Set.of());
     }
 
     @Override

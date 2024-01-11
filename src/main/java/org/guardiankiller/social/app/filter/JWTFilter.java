@@ -1,13 +1,13 @@
-package com.example.socialapp.filter;
+package org.guardiankiller.social.app.filter;
 
-import com.example.socialapp.exceptions.AuthenticationException;
-import com.example.socialapp.service.AccessTokenAuthService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.guardiankiller.social.app.exception.ServerException;
+import org.guardiankiller.social.app.service.AuthenticationService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -22,7 +22,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
     public static final String HEADER_AUTHORIZATION = "Authorization";
 
-    private final AccessTokenAuthService service;
+    private final AuthenticationService service;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -32,7 +32,7 @@ public class JWTFilter extends OncePerRequestFilter {
             var token = header.replace(BEARER_TYPE,"");
             try {
                 service.loginWithKey(token);
-            } catch (AuthenticationException e) {
+            } catch (ServerException e) {
                 log.error("Failed to login", e);
             }
         }
