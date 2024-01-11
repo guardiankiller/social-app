@@ -42,6 +42,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    @Column(nullable = false)
+    private String hash;
+
     @PrePersist
     private void prePersist() {
         createdDateTime = LocalDateTime.now(ZoneOffset.UTC);

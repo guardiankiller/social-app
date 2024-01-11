@@ -23,3 +23,8 @@ ALTER TABLE user_info ADD CONSTRAINT UNIQUE (email);
 -- changeset jitzerttok51:3
 -- Increase email length
 ALTER TABLE user_info MODIFY email varchar(35);
+
+-- changeset jitzerttok51:4
+-- Add user hash password
+ALTER TABLE user_info ADD COLUMN hash varchar(80);
+

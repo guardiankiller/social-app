@@ -10,6 +10,7 @@ import org.guardiankiller.social.app.model.User;
 import org.guardiankiller.social.app.repository.UserRepo;
 import org.guardiankiller.social.app.service.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +22,10 @@ import java.util.regex.Pattern;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+
     private final UserRepo userRepo;
+
+    private final PasswordEncoder passwordEncoder;
     private final Pattern emailValidator = Pattern.compile("^[\\w.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 
     @Override
@@ -47,6 +51,7 @@ public class UserServiceImpl implements UserService {
         if (createDTO.getDateOfBirth().isAfter(LocalDate.now().minusYears(13))) {
             throw new ServerException("You must be at least 13 years old.", HttpStatus.BAD_REQUEST);
         }
+        validatePasswords(createDTO);
 
         User user = new User();
         user.setUsername(createDTO.getUsername());
@@ -55,7 +60,26 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(createDTO.getFirstName());
         user.setLastName(createDTO.getLastName());
         user.setDateOfBirth(createDTO.getDateOfBirth());
+        user.setHash(passwordEncoder.encode(createDTO.getPassword()));
         userRepo.save(user);
+    }
+
+    private void validatePasswords(UserCreateDTO userCreateDTO) {
+        String invalidPasswordMessage = "A valid password should be between 8 and 26 characters";
+        String password = userCreateDTO.getPassword();
+        String confirm = userCreateDTO.getConfirmPassword();
+        if(password == null) {
+            throw new ServerException(invalidPasswordMessage, HttpStatus.BAD_REQUEST);
+        }
+        password = password.trim();
+        int len = password.length();
+        if(len < 8 || len > 26) {
+            throw new ServerException(invalidPasswordMessage, HttpStatus.BAD_REQUEST);
+        }
+
+        if(confirm == null || !confirm.trim().equals(password)) {
+            throw new ServerException("Passwords must match", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Override

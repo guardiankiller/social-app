@@ -17,6 +17,9 @@ public class UserCreateDTO {
         private String userEmail;
         private LocalDate dateOfBirth;
         private Gender gender;
+        private String password;
+
+        private String confirmPassword;
 
         public Builder setUsername(String username) {
             this.username = username;
@@ -48,8 +51,19 @@ public class UserCreateDTO {
             return this;
         }
 
+        public Builder setPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public Builder setConfirmPassword(String confirmPassword) {
+            this.confirmPassword = confirmPassword;
+            return this;
+        }
+
         public UserCreateDTO build(){
-            return new UserCreateDTO(username, firstName, lastName, userEmail, dateOfBirth, gender);
+            return new UserCreateDTO(username, firstName, lastName, userEmail,
+                dateOfBirth, gender, password, confirmPassword);
         }
     }
 
@@ -63,5 +77,6 @@ public class UserCreateDTO {
     private final String userEmail;
     private final LocalDate dateOfBirth;
     private final Gender gender;
-
+    private final String password;
+    private final String confirmPassword;
 }
