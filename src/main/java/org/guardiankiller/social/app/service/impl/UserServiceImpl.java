@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
         if (userRepo.emailExists(email)) {
             throw new ServerException("Email already exists", HttpStatus.BAD_REQUEST);
         }
-        if (!createDTO.getDateOfBirth().isAfter(LocalDate.now().minusYears(13))) {
+        if (createDTO.getDateOfBirth().isAfter(LocalDate.now().minusYears(13))) {
             throw new ServerException("You must be at least 13 years old.", HttpStatus.BAD_REQUEST);
         }
 

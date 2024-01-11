@@ -19,3 +19,7 @@ create table user_info
 -- Made username and email columns Unique
 ALTER TABLE user_info ADD CONSTRAINT UNIQUE (username);
 ALTER TABLE user_info ADD CONSTRAINT UNIQUE (email);
+
+-- changeset jitzerttok51:3
+-- Increase email length
+ALTER TABLE user_info MODIFY email varchar(35);
