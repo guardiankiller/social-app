@@ -20,4 +20,5 @@ public interface UserService {
 
     boolean editUserInfo(String usernameId, UserEditDTO userEditDTO);
 
+    boolean authenticateUser(String username, String password);
 }

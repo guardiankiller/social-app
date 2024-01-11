@@ -193,6 +193,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public boolean authenticateUser(String username, String password) {
+        return userRepo
+                   .findById(username)
+                   .map(user -> passwordEncoder.matches(password, user.getHash()))
+                   .orElse(false);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var user = userRepo.findById(username)
