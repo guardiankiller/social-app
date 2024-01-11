@@ -10,6 +10,9 @@ import org.guardiankiller.social.app.model.User;
 import org.guardiankiller.social.app.repository.UserRepo;
 import org.guardiankiller.social.app.service.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +24,7 @@ import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepo userRepo;
 
@@ -189,4 +192,13 @@ public class UserServiceImpl implements UserService {
 //        return true;
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        var user = userRepo.findById(username)
+                           .orElseThrow(()->new UsernameNotFoundException("User "+username+" not found"));
+        return new org.springframework.security.core.userdetails.User(
+            user.getUsername(), user.getHash(), List.of()
+        );
+    }
 }
