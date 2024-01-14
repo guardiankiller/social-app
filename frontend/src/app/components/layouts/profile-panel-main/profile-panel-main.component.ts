@@ -9,4 +9,6 @@ import { User } from 'src/app/models/user.model';
 export class ProfilePanelMainComponent {
 
   @Input() user?: User
+
+  @Input() isCurrentUser = false
 }

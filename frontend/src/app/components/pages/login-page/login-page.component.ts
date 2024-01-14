@@ -2,10 +2,8 @@ import { Component, OnInit, computed, effect } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { LoginInfoStatus } from 'src/app/models/login.model';
-import { AppState } from 'src/app/state/app.state';
-import { login, selectError, selectStatus, selectUsername } from 'src/app/state/login-profile/login-profile.reducers';
+import { UserAuthenticationService } from 'src/app/services/user-authentication.service';
 
 @Component({
   selector: 'app-login-page',
@@ -14,11 +12,9 @@ import { login, selectError, selectStatus, selectUsername } from 'src/app/state/
 })
 export class LoginPageComponent implements OnInit {
 
-  error = this.store.selectSignal(selectError);
+  error = this.service.message;
 
-  status = this.store.selectSignal(selectStatus);
-
-  stateUsername = this.store.selectSignal(selectUsername);
+  status = this.service.status;
 
   isPending = computed(() => this.status() === LoginInfoStatus.PENDING);
 
@@ -32,22 +28,22 @@ export class LoginPageComponent implements OnInit {
   });
 
   constructor(
-    private fb: FormBuilder, 
-    private store: Store<AppState>,
+    private fb: FormBuilder,
     private router: Router,
-    private bar: MatSnackBar) {
+    private bar: MatSnackBar,
+    private service: UserAuthenticationService) {
 
       effect(() => {
         if(this.isLoggedIn()) {
           let b = bar.open('Login successful', 'OK');
           b._dismissAfter(1000);
           b.afterDismissed()
-          .subscribe(_ => this.router.navigate(['/users', this.stateUsername()]));
+          .subscribe(_ => this.router.navigate(['/users', this.service.username()]));
         }
       });
       effect(()=> {
         if(this.isFail()) {
-          bar.open(this.error()?.message || 'Unknown error', 'OK');;
+          bar.open(this.error() || 'Unknown error', 'OK');;
         }
       });
     }
@@ -68,9 +64,9 @@ export class LoginPageComponent implements OnInit {
   }
 
   submit() {
-    this.store.dispatch(login({login: {
+    this.service.login({
       username: this.username.value!,
       password: this.password.value!
-    }}));
+    });
   }
 }

@@ -1,13 +1,11 @@
 import { Component, OnDestroy, computed, effect } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Store } from '@ngrx/store';
 import { Status } from 'src/app/models/status.model';
 import { UserRegister } from 'src/app/models/user-register.model';
-import { AppState } from 'src/app/state/app.state';
-import { registerUserFill, registerUserReset, registerUserSubmit } from 'src/app/state/user-register/user-register.actions';
-import { selectRegisterInfo, selectRegisterInfoError, selectRegisterInfoStatus } from 'src/app/state/user-register/user-register.selectors';
-import { Subscription, asapScheduler, debounceTime, map, merge } from 'rxjs'
+import { Subscription, debounceTime, merge } from 'rxjs'
+import { UserRegisterService } from 'src/app/services/user-register.service';
 
 
 @Component({
@@ -17,43 +15,47 @@ import { Subscription, asapScheduler, debounceTime, map, merge } from 'rxjs'
 })
 export class RegisterComponent implements OnDestroy {
 
-  info = this.store.selectSignal(selectRegisterInfo);
+  info = this.service.form;
 
-  status = this.store.selectSignal(selectRegisterInfoStatus);
+  status = this.service.status;
 
-  error = this.store.selectSignal(selectRegisterInfoError);
+  error = this.service.message;
 
-  isLoading = computed(() => this.status() == Status.LOADING);
+  isLoading = computed(() => this.service.status() == Status.LOADING);
 
-  isInit = computed(() => this.status() == Status.INIT);
+  isInit = computed(() => this.service.status() == Status.INIT);
 
-  isSuccess = computed(() => this.status() == Status.SUCCESS);
+  isSuccess = computed(() => this.service.status() == Status.SUCCESS);
 
-  isFailed = computed(() => this.status() == Status.FAIL);
+  isFailed = computed(() => this.service.status() == Status.FAIL);
 
   form = this.fb.group({
     'username': [this.info()?.username || '', Validators.required],
     'firstName': [this.info()?.firstName || '', Validators.required],
     'lastName': [this.info()?.lastName || '', Validators.required],
-    'email': [this.info()?.email || '', [Validators.required, Validators.email]],
+    'userEmail': [this.info()?.userEmail || '', [Validators.required, Validators.email]],
     'gender': [this.info()?.gender || 'MALE', Validators.required],
-    'dateOfBirth': [this.info()?.dateOfBirth || new Date(), Validators.required]
+    'dateOfBirth': [this.info()?.dateOfBirth || new Date(), Validators.required],
+    'password': [this.info()?.password || '', Validators.required],
+    'confirm': [this.info()?.confirmPassword || '', Validators.required]
   });
 
   subs: Subscription[] = [];
 
-  constructor(private fb: FormBuilder, private store: Store<AppState>, private bar: MatSnackBar) {
+  constructor(
+    private fb: FormBuilder,
+    private bar: MatSnackBar,
+    private service: UserRegisterService) {
     this.addFormBindingToState();
     effect(() => {
       if(this.isFailed()) {
-        this.bar.open(this.error()?.message || 'Unkown Error','OK');
+        this.bar.open(this.error() ,'OK');
       }
     });
     effect(() => {
       if(this.isSuccess()) {
         this.bar.open('User registered successfully','OK');
         this.form.reset();
-        asapScheduler.schedule(()=>this.store.dispatch(registerUserReset()));
         this.form.reset();
       }
     });
@@ -67,25 +69,27 @@ export class RegisterComponent implements OnDestroy {
         username: v.username || '',
         firstName: v.firstName || '',
         lastName: v.lastName || '',
-        email: v.email || '',
+        userEmail: v.userEmail || '',
         gender: v.gender || 'MALE',
-        dateOfBirth: v.dateOfBirth || new Date()
+        dateOfBirth: v.dateOfBirth || new Date(),
+        password: v.password || '',
+        confirmPassword: v.confirm || ''
       }
       if(!this.info() || !this.shallowEqual(register, this.info())) {
-        this.store.dispatch(registerUserFill({register: register}));
+        this.service.form.set(register);
       }
     });
     this.subs.push(sub);
   
     sub = merge(
       this.form.valueChanges, 
-      this.store.select(selectRegisterInfo)
+      toObservable(this.service.form)
     ).pipe(debounceTime(400)).subscribe(v =>
         this.form.patchValue({
           username: v?.username || '',
           firstName: v?.firstName || '',
           lastName: v?.lastName || '',
-          email: v?.email || '',
+          userEmail: v?.userEmail || '',
           gender: v?.gender || 'MALE',
           dateOfBirth: v?.dateOfBirth || new Date()
         })
@@ -137,7 +141,7 @@ export class RegisterComponent implements OnDestroy {
   }
 
   get email() {
-    return this.form.controls['email']
+    return this.form.controls['userEmail']
   }
 
   get gender() {
@@ -148,7 +152,15 @@ export class RegisterComponent implements OnDestroy {
     return this.form.controls['dateOfBirth']
   }
 
+  get password() {
+    return this.form.controls['password']
+  }
+
+  get confirm() {
+    return this.form.controls['confirm']
+  }
+
   submit() {
-    this.store.dispatch(registerUserSubmit())
+    this.service.send()
   }
 }

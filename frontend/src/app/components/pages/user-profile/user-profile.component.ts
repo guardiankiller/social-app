@@ -1,12 +1,8 @@
 import { Component, computed, effect, Input, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Store } from '@ngrx/store';
-import { asapScheduler } from 'rxjs';
 import { Status } from 'src/app/models/status.model';
-import { User } from 'src/app/models/user.model';
-import { AppState } from 'src/app/state/app.state';
-import { loadUserProfileInfo } from 'src/app/state/user-profile/user-profile.actions';
-import { selectUserProfileError, selectUserProfileInfo, selectUserProfileStatus } from 'src/app/state/user-profile/user-profile.selectors';
+import { UserAuthenticationService } from 'src/app/services/user-authentication.service';
+import { UserInfoService } from 'src/app/services/user-info.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -17,11 +13,13 @@ export class UserProfileComponent implements OnInit{
 
   @Input({required: true}) username: string = ''
 
-  profile = this.store.selectSignal(selectUserProfileInfo);
+  isCurrentUser = computed(() => this.authService.username() === this.username);
 
-  status = this.store.selectSignal(selectUserProfileStatus);
+  profile = this.service.user;
 
-  error = this.store.selectSignal(selectUserProfileError);
+  status = this.service.status;
+
+  error = this.service.message;
 
   isLoading = computed(() => this.status() == Status.LOADING);
 
@@ -33,14 +31,17 @@ export class UserProfileComponent implements OnInit{
 
   isNotFound = computed(() => this.status() == Status.NOT_FOUND);
 
-  constructor(private store: Store<AppState>, private bar: MatSnackBar) {
+  constructor(
+    private service: UserInfoService, 
+    private bar: MatSnackBar,
+    private authService: UserAuthenticationService) {
     effect(() => {
       if(this.isFailed() || this.isNotFound()) {
-        this.bar.open(this.error()?.message || 'Unkown Error','OK');
+        this.bar.open(this.error() || 'Unkown Error','OK');
       }
     });
   }
   ngOnInit(): void {
-    this.store.dispatch(loadUserProfileInfo({ username: this.username }))
+    this.service.loadUser(this.username);
   }
 }

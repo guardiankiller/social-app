@@ -1,24 +1,22 @@
 import { CanActivateFn, Router } from '@angular/router'
 import { inject,  } from '@angular/core'
-import { Store } from '@ngrx/store';
-import { AppState } from '../state/app.state';
-import { selectStatus } from '../state/login-profile/login-profile.reducers';
 import { LoginInfoStatus } from '../models/login.model';
+import { UserAuthenticationService } from '../services/user-authentication.service';
 
 export const isLoggedIn: CanActivateFn = (route, state) => {
     let router = inject(Router);
-    let store: Store<AppState> = inject(Store);
+    let service: UserAuthenticationService = inject(UserAuthenticationService);
 
-    let loggedIn = store.selectSignal(selectStatus)() === LoginInfoStatus.LOGGED_IN;
+    let loggedIn = service.status() === LoginInfoStatus.LOGGED_IN;
 
     return loggedIn || router.navigate(['/login']);
 };
 
 export const isNotLoggedIn: CanActivateFn = (route, state) => {
     let router = inject(Router);
-    let store: Store<AppState> = inject(Store);
+    let service: UserAuthenticationService = inject(UserAuthenticationService);
 
-    let loggedIn = store.selectSignal(selectStatus)() !== LoginInfoStatus.LOGGED_IN;
+    let loggedIn = service.status() !== LoginInfoStatus.LOGGED_IN;
 
     return loggedIn || router.navigate(['/login']);
 };

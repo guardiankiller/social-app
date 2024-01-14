@@ -5,7 +5,7 @@
             <span class="mat-headline-4">{{user?.firstName}} {{user?.lastName}}</span>
             <span class="mat-body">{{user?.nFriends}} приятели</span>
         </div>
-        <button mat-raised-button color="primary"class="profile-panel-edit">
+        <button *ngIf="isCurrentUser" mat-raised-button color="primary"class="profile-panel-edit">
             <mat-icon>edit</mat-icon>Редактиране на профила
         </button>
     </mat-card-content>

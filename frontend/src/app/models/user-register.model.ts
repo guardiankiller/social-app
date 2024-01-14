@@ -2,7 +2,9 @@ export interface UserRegister {
     username: string
     firstName: string
     lastName: string
-    email: string
+    userEmail: string
     dateOfBirth: Date
-    gender: 'MALE' | 'FEMALE'
+    gender: 'MALE' | 'FEMALE',
+    password: string,
+    confirmPassword: string
 }

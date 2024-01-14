@@ -19,9 +19,19 @@
         </mat-form-field>
         <mat-form-field appearance="outline">
             <mat-label>Email</mat-label>
-            <input matInput formControlName="email"/>
+            <input matInput formControlName="userEmail"/>
             <mat-error *ngIf="email.hasError('required')">Email field is required</mat-error>
             <mat-error *ngIf="email.hasError('email')">Email is invalid</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password"type="password"/>
+            <mat-error *ngIf="password.hasError('required')">Password field is required</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Confirm Password</mat-label>
+            <input matInput formControlName="confirm" type="password"/>
+            <mat-error *ngIf="confirm.hasError('required')">Confirm Password field is required</mat-error>
         </mat-form-field>
         <mat-radio-group formControlName="gender">
             <mat-radio-button value="MALE">Male</mat-radio-button>

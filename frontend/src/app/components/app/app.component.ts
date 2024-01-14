@@ -1,26 +1,28 @@
-import { Component, computed } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Component, OnInit, computed } from '@angular/core';
 import { LoginInfoStatus } from 'src/app/models/login.model';
-import { AppState } from 'src/app/state/app.state';
-import { logout, selectStatus, selectUsername } from 'src/app/state/login-profile/login-profile.reducers';
+import { UserAuthenticationService } from 'src/app/services/user-authentication.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'frontend';
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private service: UserAuthenticationService) {}
+  
+  ngOnInit() {
+    this.service.init();
+  }
 
-  status = this.store.selectSignal(selectStatus);
+  status = this.service.status;
 
-  username = this.store.selectSignal(selectUsername);
+  username = this.service.username;
 
   isLoggedIn = computed(() => this.status() === LoginInfoStatus.LOGGED_IN);
 
   logout() {
-    this.store.dispatch(logout());
+    this.service.logout();
   }
 }
