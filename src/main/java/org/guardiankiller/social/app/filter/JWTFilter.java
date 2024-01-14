@@ -33,7 +33,9 @@ public class JWTFilter extends OncePerRequestFilter {
             try {
                 service.loginWithKey(token);
             } catch (ServerException e) {
-                log.error("Failed to login", e);
+                log.error("Failed to login: {}", e.getLocalizedMessage());
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
             }
         }
 
