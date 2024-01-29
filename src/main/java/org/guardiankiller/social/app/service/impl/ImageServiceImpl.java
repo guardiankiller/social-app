@@ -120,8 +120,8 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<ImageDTO> getAllImages(String usernameId, Pageable pageable){
-        return imageRepo.getImagesByUsername(usernameId, pageable).map(e ->{
+    public Page<ImageDTO> getAllImages(String usernameId, Pageable pageable) {
+        return imageRepo.getImagesByUsername(usernameId, pageable).map(e -> {
             return new ImageDTO(
                     e.getId(),
                     "/storage/" + usernameId + "/" + e.getFileName(),
@@ -137,7 +137,7 @@ public class ImageServiceImpl implements ImageService {
 //        Optional<UserImage> optUI = imageRepo.getImageByUsernameAndId(username, id);
 //        UserImage ui = optUI.orElseThrow(()-> new ServerException("Image does not exist", HttpStatus.NOT_FOUND));
 //        imageRepo.delete(ui);
-        if (!imageRepo.imageIdExists(username, id)){
+        if (!imageRepo.imageIdExists(username, id)) {
             throw new ServerException("Image does not exist", HttpStatus.NOT_FOUND);
         }
         imageRepo.deleteImageByUsernameAndId(username, id);
@@ -147,7 +147,7 @@ public class ImageServiceImpl implements ImageService {
     @Transactional
     public void editImage(String usernameId, int imageId, ImageEditDTO editDTO) {
         UserImage userImage = imageRepo.getImageByUsernameAndId(usernameId, imageId)
-                .orElseThrow(()-> new ServerException("Image not found", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ServerException("Image not found", HttpStatus.NOT_FOUND));
         VisibilityModifiers modifier = editDTO.getVisibility();
         if (modifier != null) {
             userImage.setVisibility(modifier);

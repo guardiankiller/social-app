@@ -74,16 +74,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         String invalidPasswordMessage = "A valid password should be between 8 and 26 characters";
         String password = userCreateDTO.getPassword();
         String confirm = userCreateDTO.getConfirmPassword();
-        if(password == null) {
+        if (password == null) {
             throw new ServerException(invalidPasswordMessage, HttpStatus.BAD_REQUEST);
         }
         password = password.trim();
         int len = password.length();
-        if(len < 8 || len > 26) {
+        if (len < 8 || len > 26) {
             throw new ServerException(invalidPasswordMessage, HttpStatus.BAD_REQUEST);
         }
 
-        if(confirm == null || !confirm.trim().equals(password)) {
+        if (confirm == null || !confirm.trim().equals(password)) {
             throw new ServerException("Passwords must match", HttpStatus.BAD_REQUEST);
         }
     }
@@ -91,7 +91,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public List<UserResultDTO> getAllUsers() {
-
         return userRepo.findAll()
                 .stream()
                 .map(userEntity -> this.userResultDTO(userEntity))
@@ -175,48 +174,35 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .ifPresent(user::setDateOfBirth);
         Optional.ofNullable(userEditDTO.getGender())
                 .ifPresent(user::setGender);
-
-//        Optional<User> opt = userRepo.findById(usernameId);
-//        if (opt.isEmpty()) {
-//            return false;
-//        }
-//        User user = opt.get();
-////       user.setUsername(userEditDTO.getUsername());
-//        Optional.ofNullable(userEditDTO.getUserEmail()).ifPresent(user::setUserEmail);
-//
-//        if (userEditDTO.getUserEmail() != null) {
-//            user.setUserEmail(userEditDTO.getUserEmail());
-//        }
-//        return true;
     }
 
     @Override
     public boolean authenticateUser(String username, String password) {
         return userRepo
-                   .findById(username)
-                   .map(user -> passwordEncoder.matches(password, user.getHash()))
-                   .orElse(false);
+                .findById(username)
+                .map(user -> passwordEncoder.matches(password, user.getHash()))
+                .orElse(false);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username, LocalDateTime verifyDate) {
         var user = userRepo
-                       .findById(username)
-                       .orElseThrow(()->new UsernameNotFoundException("Username not found"));
-        if(user.getUpdatedDateTime().minusMinutes(10).isAfter(verifyDate)) {
+                .findById(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+        if (user.getUpdatedDateTime().minusMinutes(10).isAfter(verifyDate)) {
             throw new ServerException("Token expired", HttpStatus.UNAUTHORIZED);
         }
         return new org.springframework.security.core.userdetails
-                       .User(user.getUsername(), user.getHash(), Set.of());
+                .User(user.getUsername(), user.getHash(), Set.of());
     }
 
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var user = userRepo.findById(username)
-                           .orElseThrow(()->new UsernameNotFoundException("User "+username+" not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found"));
         return new org.springframework.security.core.userdetails.User(
-            user.getUsername(), user.getHash(), List.of()
+                user.getUsername(), user.getHash(), List.of()
         );
     }
 

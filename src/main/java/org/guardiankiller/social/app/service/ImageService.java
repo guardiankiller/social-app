@@ -11,8 +11,11 @@ import java.util.Optional;
 
 public interface ImageService {
     void uploadImage(String usernameId, MultipartFile image, VisibilityModifiers modifiers);
+
     Optional<ImageDTO> getImage(String usernameId, int imageId);
+
     Page<ImageDTO> getAllImages(String usernameId, Pageable pageable);
+
     void deleteImageByUsernameAndId(String username, int id);
 
     void editImage(String usernameId, int imageId, ImageEditDTO editDTO);
