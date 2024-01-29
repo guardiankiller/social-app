@@ -11,11 +11,11 @@ public interface UserRepo extends JpaRepository<User, String> {
     @Query("SELECT count (*) > 0 FROM User WHERE username = :name")
     boolean usernameExistsInt(@Param("name") String username);
 
-    default boolean usernameExists(String newUsername) {
-        if (newUsername == null) {
+    default boolean usernameExists(String usernameId) {
+        if (usernameId == null) {
             return false;
         }
-        return usernameExistsInt(newUsername);
+        return usernameExistsInt(usernameId);
     }
 
     @Query("SELECT count (*) > 0 FROM User WHERE userEmail = :newEmail")

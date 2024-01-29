@@ -5,34 +5,32 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "user_info")
-public class User {
-
+@Table(name = "user_images")
+public class UserImage {
     @Id
     @Column(nullable = false)
-    private String username;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
+    @Column(name = "file_name", nullable = false)
+    private String fileName;
 
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
+    @Column(nullable = false)
+    private String checksum;
 
-    @Column(name = "email", nullable = false)
-    private String userEmail;
+    @Column(name = "file_size", nullable = false)
+    private long fileSize;
 
-    @Column(name = "date_of_birth", nullable = false)
-    private LocalDate dateOfBirth;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private VisibilityModifiers visibility;
 
     @Column(name = "created_date_time", nullable = false)
     private LocalDateTime createdDateTime;
@@ -40,15 +38,9 @@ public class User {
     @Column(name = "updated_date_time", nullable = false)
     private LocalDateTime updatedDateTime;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
-
-    @Column(nullable = false)
-    private String hash;
-
-    @OneToMany(mappedBy = "user")
-    private Set<UserImage> images = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "username", nullable = false)
+    private User user;
 
     @PrePersist
     private void prePersist() {
@@ -60,5 +52,4 @@ public class User {
     private void preUpdate() {
         updatedDateTime = LocalDateTime.now(ZoneOffset.UTC);
     }
-
 }

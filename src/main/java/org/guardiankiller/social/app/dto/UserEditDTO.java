@@ -15,5 +15,4 @@ public class UserEditDTO {
     private String userEmail;
     private LocalDate dateOfBirth;
     private Gender gender;
-
 }

@@ -5,7 +5,6 @@ import org.guardiankiller.social.app.dto.UserEditDTO;
 import org.guardiankiller.social.app.dto.UserFullDTO;
 import org.guardiankiller.social.app.dto.UserResultDTO;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,9 +19,11 @@ public interface UserService {
 
     void deleteUserByUsername(String usernameId);
 
-    boolean editUserInfo(String usernameId, UserEditDTO userEditDTO);
+    void editUserInfo(String usernameId, UserEditDTO userEditDTO);
 
     boolean authenticateUser(String username, String password);
 
     UserDetails loadUserByUsername(String username, LocalDateTime verifyDate);
+
+    String getCurrentUsername();
 }
