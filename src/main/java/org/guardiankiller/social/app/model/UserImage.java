@@ -42,6 +42,9 @@ public class UserImage {
     @JoinColumn(name = "username", nullable = false)
     private User user;
 
+    @Column
+    private String comment;
+
     @PrePersist
     private void prePersist() {
         createdDateTime = LocalDateTime.now(ZoneOffset.UTC);

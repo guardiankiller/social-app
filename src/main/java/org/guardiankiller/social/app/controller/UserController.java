@@ -58,8 +58,9 @@ public class UserController {
     public void uploadImage(
             @PathVariable String usernameId,
             @RequestParam MultipartFile images,
-            @RequestParam VisibilityModifiers visibility) {
-        imageService.uploadImage(usernameId, images, visibility);
+            @RequestParam VisibilityModifiers visibility,
+            String comment) {
+        imageService.uploadImage(usernameId, images, visibility, comment);
     }
 
     @GetMapping("{usernameId}/images")

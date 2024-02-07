@@ -48,3 +48,7 @@ create table user_images
     FOREIGN KEY (username) REFERENCES user_info (username)
 ) engine = InnoDB;
 
+-- changeset guardiankiller:6
+-- Added comment column to user_images table
+ALTER TABLE user_images
+    ADD COLUMN comment varchar(255);

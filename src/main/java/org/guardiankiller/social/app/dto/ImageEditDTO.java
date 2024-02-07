@@ -8,4 +8,5 @@ import org.guardiankiller.social.app.model.VisibilityModifiers;
 @Data
 public class ImageEditDTO {
     private VisibilityModifiers visibility;
+    private String comment;
 }

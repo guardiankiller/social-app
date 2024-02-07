@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Optional;
 
 public interface ImageService {
-    void uploadImage(String usernameId, MultipartFile image, VisibilityModifiers modifiers);
+    void uploadImage(String usernameId, MultipartFile image, VisibilityModifiers modifiers, String comment);
 
     Optional<ImageDTO> getImage(String usernameId, int imageId);
 

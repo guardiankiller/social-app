@@ -13,4 +13,5 @@ public class ImageDTO {
     private final long fileSize;
     private final VisibilityModifiers visibility;
     private final LocalDateTime createdDateTime;
+    private final String comment;
 }

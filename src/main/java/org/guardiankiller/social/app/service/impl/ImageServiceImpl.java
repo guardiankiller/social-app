@@ -39,7 +39,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     @Transactional
-    public void uploadImage(String usernameId, MultipartFile image, VisibilityModifiers modifiers) {
+    public void uploadImage(String usernameId, MultipartFile image, VisibilityModifiers modifiers, String comment) {
         if (!service.getCurrentUsername().equals(usernameId)) {
             throw new ServerException("You do not hava access to this resource", HttpStatus.FORBIDDEN);
         }
@@ -75,6 +75,9 @@ public class ImageServiceImpl implements ImageService {
             userImage.setUser(user);
 
             userImage.setVisibility(modifiers);
+            if (comment != null){
+            userImage.setComment(comment);
+            }
             imageRepo.save(userImage);
 
         } catch (IOException e) {
@@ -114,7 +117,8 @@ public class ImageServiceImpl implements ImageService {
                     "/storage/" + usernameId + "/" + e.getFileName(),
                     e.getFileSize(),
                     e.getVisibility(),
-                    e.getCreatedDateTime());
+                    e.getCreatedDateTime(),
+                    e.getComment());
         });
     }
 
@@ -127,7 +131,8 @@ public class ImageServiceImpl implements ImageService {
                     "/storage/" + usernameId + "/" + e.getFileName(),
                     e.getFileSize(),
                     e.getVisibility(),
-                    e.getCreatedDateTime());
+                    e.getCreatedDateTime(),
+                    e.getComment());
         });
     }
 
@@ -148,9 +153,15 @@ public class ImageServiceImpl implements ImageService {
     public void editImage(String usernameId, int imageId, ImageEditDTO editDTO) {
         UserImage userImage = imageRepo.getImageByUsernameAndId(usernameId, imageId)
                 .orElseThrow(() -> new ServerException("Image not found", HttpStatus.NOT_FOUND));
+
         VisibilityModifiers modifier = editDTO.getVisibility();
         if (modifier != null) {
             userImage.setVisibility(modifier);
+        }
+
+        String comment = editDTO.getComment();
+        if (comment != null) {
+            userImage.setComment(comment);
         }
     }
 }
