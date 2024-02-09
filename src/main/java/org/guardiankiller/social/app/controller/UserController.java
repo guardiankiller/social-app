@@ -59,15 +59,17 @@ public class UserController {
             @PathVariable String usernameId,
             @RequestParam MultipartFile images,
             @RequestParam VisibilityModifiers visibility,
-            String comment) {
-        imageService.uploadImage(usernameId, images, visibility, comment);
+            String comment,
+            @RequestParam boolean profileImage) {
+        imageService.uploadImage(usernameId, images, visibility, comment, profileImage);
     }
 
     @GetMapping("{usernameId}/images")
     public Page<ImageDTO> getImages(@PathVariable String usernameId,
                                     @RequestParam(defaultValue = "0") int page,
-                                    @RequestParam(defaultValue = "10") int pageSize) {
-        return imageService.getAllImages(usernameId, PageRequest.of(page, pageSize));
+                                    @RequestParam(defaultValue = "10") int pageSize,
+                                    @RequestParam boolean profileImage) {
+        return imageService.getAllImages(usernameId, PageRequest.of(page, pageSize), profileImage);
     }
 
     @GetMapping("{usernameId}/images/{imageId}")

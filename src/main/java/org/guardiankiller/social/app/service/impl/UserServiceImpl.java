@@ -7,6 +7,8 @@ import org.guardiankiller.social.app.dto.UserFullDTO;
 import org.guardiankiller.social.app.dto.UserResultDTO;
 import org.guardiankiller.social.app.exception.ServerException;
 import org.guardiankiller.social.app.model.User;
+import org.guardiankiller.social.app.model.UserImage;
+import org.guardiankiller.social.app.repository.ImageRepo;
 import org.guardiankiller.social.app.repository.UserRepo;
 import org.guardiankiller.social.app.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,7 @@ import java.util.regex.Pattern;
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepo userRepo;
+    private final ImageRepo imageRepo;
 
     private final PasswordEncoder passwordEncoder;
     private final Pattern emailValidator = Pattern.compile("^[\\w.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
@@ -105,7 +108,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     private UserResultDTO userResultDTO(User userEntity) {
-        return new UserResultDTO(userEntity.getUsername(), userEntity.getFirstName(), userEntity.getLastName());
+        return new UserResultDTO(userEntity.getUsername(),
+                userEntity.getFirstName(),
+                userEntity.getLastName(),
+                getCurrProfileImageURL(userEntity));
+    }
+
+    private String getCurrProfileImageURL(User userEntity) {
+        Optional<UserImage> opt = imageRepo.getCurrentProfileImageByUsername(userEntity.getUsername());
+        String profileImageUrl = null;
+        if (opt.isPresent()) {
+            UserImage image = opt.orElseThrow();
+            profileImageUrl = "/storage/" + userEntity.getUsername() + "/" + image.getFileName();
+        }
+        return profileImageUrl;
     }
 
     private UserFullDTO userFullDTO(User userEntity) {
@@ -117,7 +133,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 userEntity.getDateOfBirth(),
                 userEntity.getGender(),
                 userEntity.getCreatedDateTime(),
-                userEntity.getUpdatedDateTime());
+                userEntity.getUpdatedDateTime(),
+                getCurrProfileImageURL(userEntity));
     }
 
     @Override

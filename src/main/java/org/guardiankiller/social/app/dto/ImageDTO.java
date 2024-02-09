@@ -14,4 +14,5 @@ public class ImageDTO {
     private final VisibilityModifiers visibility;
     private final LocalDateTime createdDateTime;
     private final String comment;
+    private final boolean profileImage;
 }

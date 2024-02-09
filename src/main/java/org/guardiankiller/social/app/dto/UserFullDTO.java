@@ -18,4 +18,5 @@ public class UserFullDTO {
     private final Gender gender;
     private final LocalDateTime createdDateTime;
     private final LocalDateTime updatedDateTime;
+    private final String url;
 }

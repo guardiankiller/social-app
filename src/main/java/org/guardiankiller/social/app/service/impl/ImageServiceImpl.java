@@ -27,6 +27,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
+import static org.guardiankiller.social.app.model.VisibilityModifiers.CURRENT_PROFILE_IMAGE;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -39,7 +41,11 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     @Transactional
-    public void uploadImage(String usernameId, MultipartFile image, VisibilityModifiers modifiers, String comment) {
+    public void uploadImage(String usernameId,
+                            MultipartFile image,
+                            VisibilityModifiers modifiers,
+                            String comment,
+                            boolean profileImage) {
         if (!service.getCurrentUsername().equals(usernameId)) {
             throw new ServerException("You do not hava access to this resource", HttpStatus.FORBIDDEN);
         }
@@ -50,6 +56,9 @@ public class ImageServiceImpl implements ImageService {
             }
             if (!contentType.startsWith("image/")) {
                 throw new ServerException("Content type must be an image", HttpStatus.BAD_REQUEST);
+            }
+            if (modifiers == CURRENT_PROFILE_IMAGE && !profileImage){
+                throw new ServerException("visibility and profileImage must be compatible", HttpStatus.BAD_REQUEST);
             }
             log.info("Content type {}", image.getContentType());
             Files.createDirectories(UPLOAD_DIRECTORY);
@@ -73,10 +82,14 @@ public class ImageServiceImpl implements ImageService {
             User user = userRepo.findById(usernameId).orElseThrow(
                     () -> new ServerException("User does not exist", HttpStatus.NOT_FOUND));
             userImage.setUser(user);
-
             userImage.setVisibility(modifiers);
-            if (comment != null){
-            userImage.setComment(comment);
+            if (comment != null) {
+                userImage.setComment(comment);
+            }
+
+            userImage.setProfileImage(profileImage);
+            if (modifiers.equals(CURRENT_PROFILE_IMAGE)) {
+                imageRepo.updateCurrentProfileImageToPublic(usernameId);
             }
             imageRepo.save(userImage);
 
@@ -118,21 +131,25 @@ public class ImageServiceImpl implements ImageService {
                     e.getFileSize(),
                     e.getVisibility(),
                     e.getCreatedDateTime(),
-                    e.getComment());
+                    e.getComment(),
+                    e.isProfileImage());
         });
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Page<ImageDTO> getAllImages(String usernameId, Pageable pageable) {
-        return imageRepo.getImagesByUsername(usernameId, pageable).map(e -> {
+    public Page<ImageDTO> getAllImages(String usernameId,
+                                       Pageable pageable,
+                                       boolean profileImage) {
+        return imageRepo.getImagesByUsername(usernameId, pageable, profileImage).map(e -> {
             return new ImageDTO(
                     e.getId(),
                     "/storage/" + usernameId + "/" + e.getFileName(),
                     e.getFileSize(),
                     e.getVisibility(),
                     e.getCreatedDateTime(),
-                    e.getComment());
+                    e.getComment(),
+                    profileImage);
         });
     }
 

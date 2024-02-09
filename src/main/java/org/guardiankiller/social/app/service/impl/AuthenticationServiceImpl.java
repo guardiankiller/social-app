@@ -43,8 +43,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public AuthResponseDTO login(AuthRequestDTO request) {
         ServerException e = new ServerException("Invalid credentials", HttpStatus.UNAUTHORIZED);
-        UserFullDTO user = userService.getUserByUsername(request.getUsername()).orElseThrow(()->e);
-        if(!userService.authenticateUser(request.getUsername(), request.getPassword())) {
+        UserFullDTO user = userService.getUserByUsername(request.getUsername()).orElseThrow(() -> e);
+        if (!userService.authenticateUser(request.getUsername(), request.getPassword())) {
             throw e;
         }
 
@@ -58,6 +58,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         claims.addClaim("username", user.getUsername());
         claims.addClaim("firstName", user.getFirstName());
         claims.addClaim("lastname", user.getLastName());
+        claims.addClaim("url", user.getUrl());
         var exp = LocalDateTime.now().plusMinutes(DURATION_IN_MIN);
         claims.setExpiration(exp);
         var token = JWTUtils.sign(claims, keyEntry);
@@ -78,9 +79,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private void authenticate(String username, LocalDateTime jwtCreationDate) {
         var user = userService.loadUserByUsername(username, jwtCreationDate);
         var authToken = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(),
-            user.getAuthorities());
-        if(SecurityContextHolder
-               .getContext().getAuthentication() == null) {
+                user.getAuthorities());
+        if (SecurityContextHolder
+                .getContext().getAuthentication() == null) {
             SecurityContextHolder.getContext().setAuthentication(authToken);
         }
     }

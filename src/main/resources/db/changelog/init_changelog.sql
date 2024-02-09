@@ -52,3 +52,13 @@ create table user_images
 -- Added comment column to user_images table
 ALTER TABLE user_images
     ADD COLUMN comment varchar(255);
+
+-- changeset guardiankiller:7
+-- Added profile_image column to user_images table
+ALTER TABLE user_images
+    ADD COLUMN profile_image BOOLEAN;
+
+-- changeset guardiankiller:8
+-- Added new enum value
+ALTER TABLE user_images
+    MODIFY COLUMN visibility enum ('PUBLIC', 'FRIENDS_ONLY', 'ME_ONLY', 'CURRENT_PROFILE_IMAGE') not null;

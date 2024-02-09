@@ -3,11 +3,13 @@ package org.guardiankiller.social.app.dto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.guardiankiller.social.app.model.Gender;
 
 import java.time.LocalDate;
 
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class UserCreateDTO {
     public static class Builder{
@@ -71,12 +73,12 @@ public class UserCreateDTO {
         return new Builder();
     }
 
-    private final String username;
-    private final String firstName;
-    private final String lastName;
-    private final String userEmail;
-    private final LocalDate dateOfBirth;
-    private final Gender gender;
-    private final String password;
-    private final String confirmPassword;
+    private String username;
+    private String firstName;
+    private String lastName;
+    private String userEmail;
+    private LocalDate dateOfBirth;
+    private Gender gender;
+    private String password;
+    private String confirmPassword;
 }
