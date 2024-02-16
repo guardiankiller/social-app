@@ -11,6 +11,7 @@ import { MatNativeDateModule } from "@angular/material/core"
 import { MatListModule } from "@angular/material/list"
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner"
 import { MatSnackBarModule } from "@angular/material/snack-bar"
+import { MatSelectModule } from '@angular/material/select'
 
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 
@@ -27,6 +28,7 @@ let modules: any[] = [
     MatListModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatSelectModule
 ]
 
 @NgModule({

@@ -16,7 +16,6 @@ import { LoginPageComponent } from './components/pages/login-page/login-page.com
 import { HttpClientModule } from '@angular/common/http';
 import { authInterceptorProvider } from './services/user-authentication.service';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +24,7 @@ import { authInterceptorProvider } from './services/user-authentication.service'
     PostComponent,
     ProfilePanelMainComponent,
     ProfilePanelSideComponent,
-    LoginPageComponent
+    LoginPageComponent  
   ],
   imports: [
     BrowserModule,

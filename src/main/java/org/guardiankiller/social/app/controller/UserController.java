@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
     UserService userService;
     ImageService imageService;
@@ -59,7 +59,7 @@ public class UserController {
             @PathVariable String usernameId,
             @RequestParam MultipartFile images,
             @RequestParam VisibilityModifiers visibility,
-            String comment,
+            @RequestParam(required = false)  String comment,
             @RequestParam boolean profileImage) {
         imageService.uploadImage(usernameId, images, visibility, comment, profileImage);
     }

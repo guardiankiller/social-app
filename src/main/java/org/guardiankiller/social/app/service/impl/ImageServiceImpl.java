@@ -66,6 +66,10 @@ public class ImageServiceImpl implements ImageService {
             String checksum = calculateSha256Sum(image);
             String fileExt = contentType.replace("image/", "");
 
+            if(imageRepo.imageExists(checksum)) {
+                throw new ServerException("The uploaded image already exists", HttpStatus.CONFLICT);
+            }
+
             String fileName = usernameId + "_" + checksum + "." + fileExt;
             Path filepath = UPLOAD_DIRECTORY.resolve(usernameId).resolve(fileName);
             // filepath = C:\Users\nomor\IdeaProjects\Social App\images\guardiankiller\guardiankiller_8983bc8f363448191b9cc8e131ce143160b53b323985e16a31fa8e0379559007.jpeg

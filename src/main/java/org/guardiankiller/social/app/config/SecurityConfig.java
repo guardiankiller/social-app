@@ -27,8 +27,11 @@ public class SecurityConfig {
         return http.cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(x -> x
-                        .requestMatchers(HttpMethod.POST, "/auth", "/users").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/storage/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth", "/api/users").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/storage/**").permitAll() // Images serving endpoint
+                        .requestMatchers("/api/**").authenticated()
+                        .requestMatchers(HttpMethod.GET,"/**").permitAll() // UI serving endpoint
+                        .requestMatchers("/error").permitAll() // UI serving endpoint
                         .anyRequest().authenticated())
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)

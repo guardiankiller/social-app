@@ -37,4 +37,6 @@ public interface ImageRepo extends JpaRepository<UserImage, Integer> {
     @Query("SELECT ui FROM UserImage ui WHERE ui.user.username = :username AND ui.visibility = 'CURRENT_PROFILE_IMAGE'")
     Optional<UserImage> getCurrentProfileImageByUsername(@Param("username") String username);
 
+    @Query("SELECT COUNT(*) > 0 FROM UserImage image WHERE image.checksum = :checksum")
+    boolean imageExists(@Param("checksum") String checksum);
 }

@@ -14,7 +14,9 @@ public class StaticStorageConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
-                .addResourceHandler("/storage/**")
+            .addResourceHandler("/**").addResourceLocations("classpath:/static/");
+
+        registry.addResourceHandler("/storage/**")
                 .addResourceLocations(String.valueOf(UPLOAD_DIRECTORY.toUri()));
     }
 }
