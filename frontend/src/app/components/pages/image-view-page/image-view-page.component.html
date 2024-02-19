@@ -1,0 +1,11 @@
+<div style="display: flex; justify-content: center; align-items: center; margin-left: 1rem; margin-right: 1rem;">
+    <button mat-fab 
+        [routerLink]="prevImageURL()" 
+        [disabled]="!hasPrev()"
+        ><mat-icon>chevron_left</mat-icon></button>
+    <img [src]="imageURL()!" style="width: 50%; margin-left: auto; margin-right: auto;"/>
+    <button mat-fab 
+        [routerLink]="nextImageURL()" 
+        [disabled]="!hasNext()"
+        ><mat-icon>chevron_right</mat-icon></button>
+</div>
