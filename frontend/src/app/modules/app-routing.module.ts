@@ -5,6 +5,9 @@ import { RegisterComponent } from '../components/pages/register/register.compone
 import { UserProfileComponent } from '../components/pages/user-profile/user-profile.component';
 import { LoginPageComponent } from '../components/pages/login-page/login-page.component';
 import { isLoggedIn, isNotLoggedIn } from '../utils/guards';
+import { ImageViewPageComponent } from '../components/pages/image-view-page/image-view-page.component';
+import { resloveImageView } from '../utils/resolvers';
+import { ErrorPageComponent } from '../components/pages/error-page/error-page.component';
 
 const routes: Routes = [
   {
@@ -18,9 +21,21 @@ const routes: Routes = [
     canActivate: [ isLoggedIn ]
   },
   {
+    component: ImageViewPageComponent,
+    path: 'users/:username/images/:imageId',
+    canActivate: [ isLoggedIn ],
+    resolve: {
+      result: resloveImageView
+    }
+  },
+  {
     component: LoginPageComponent,
     path: 'login',
     canActivate: [ isNotLoggedIn ]
+  },
+  {
+    component: ErrorPageComponent,
+    path: 'error'
   }
 ];
 

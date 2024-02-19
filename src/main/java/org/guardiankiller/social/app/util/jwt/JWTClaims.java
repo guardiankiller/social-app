@@ -35,7 +35,7 @@ public class JWTClaims {
             .entrySet()
             .stream()
             .filter(this::notPreselect)
-            .forEach(e -> addClaim(e.getKey(), e.getValue().toString()));
+            .forEach(e -> addClaim(e.getKey(), String.valueOf(e.getValue())));
     }
 
     private boolean notPreselect(Map.Entry<String, Object> e) {

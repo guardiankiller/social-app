@@ -15,6 +15,8 @@ import { ProfilePanelSideComponent } from './components/layouts/profile-panel-si
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { authInterceptorProvider } from './services/user-authentication.service';
+import { ImageViewPageComponent } from './components/pages/image-view-page/image-view-page.component';
+import { ErrorPageComponent } from './components/pages/error-page/error-page.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { authInterceptorProvider } from './services/user-authentication.service'
     PostComponent,
     ProfilePanelMainComponent,
     ProfilePanelSideComponent,
-    LoginPageComponent  
+    LoginPageComponent,
+    ImageViewPageComponent,
+    ErrorPageComponent
   ],
   imports: [
     BrowserModule,

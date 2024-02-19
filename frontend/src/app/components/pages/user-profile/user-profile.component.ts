@@ -9,7 +9,7 @@ import { UserInfoService } from 'src/app/services/user-info.service';
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss']
 })
-export class UserProfileComponent implements OnInit{
+export class UserProfileComponent implements OnInit {
 
   @Input({required: true}) username: string = ''
 
