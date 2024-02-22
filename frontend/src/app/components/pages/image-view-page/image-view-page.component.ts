@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, Signal, ViewChild, WritableSignal, computed, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { ImageView } from 'src/app/models/image.view.model';
@@ -33,7 +32,8 @@ export class ImageViewPageComponent {
           if(this.viewModel == undefined) {
             this.viewModel = signal(view);
           }
-            this.viewModel.set(view);
+          console.log(JSON.stringify(view));
+          this.viewModel.set(view);
           if(view.error != null) {
             this.error.set(view.error);
             bar.open(view.error, 'OK');

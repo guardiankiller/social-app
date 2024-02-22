@@ -1,11 +1,66 @@
-<div style="display: flex; justify-content: center; align-items: center; margin-left: 1rem; margin-right: 1rem;">
+<!-- <div style="display: flex; justify-content: center; align-items: stretch; margin-left: 1rem; margin-right: 1rem;">
     <button mat-fab 
         [routerLink]="prevImageURL()" 
         [disabled]="!hasPrev()"
-        ><mat-icon>chevron_left</mat-icon></button>
+        style="align-self: center"><mat-icon>chevron_left</mat-icon></button>
     <img [src]="imageURL()!" style="width: 50%; margin-left: auto; margin-right: auto;"/>
+    <div style="display: flex; flex-direction: column; justify-content: space-between;">
+        <mat-card style="justify-self: start;">
+            <mat-card-header>
+                <img mat-card-avatar [src]="viewModel().userInfo.profilePicURL"/>
+                <div style="display: flex; flex-direction: column; margin-left: 5px;">
+                    <span style="font-size: 1.2em; font-weight: 500;">{{ viewModel().userInfo.firstName }} {{ viewModel().userInfo.lastName }}</span>
+                    <span>1 ноември в 18:37 ч.</span>
+                </div>
+            </mat-card-header>
+            <mat-card-content class="profile-panel">
+                <p>{{ viewModel().imageinfo.comment }}</p>
+            </mat-card-content>
+        </mat-card>
+        <button mat-fab 
+            [routerLink]="nextImageURL()" 
+            [disabled]="!hasNext()"
+            style="align-self: end; margin-top: -80px;"><mat-icon>chevron_right</mat-icon></button>
+        <div></div>
+    </div>
+</div> -->
+
+<div style="align-self: center; display: flex; width: 98%; justify-content: space-between; align-items: center; margin-left: 1rem; margin-right: 1rem;">
     <button mat-fab 
-        [routerLink]="nextImageURL()" 
-        [disabled]="!hasNext()"
-        ><mat-icon>chevron_right</mat-icon></button>
+        [routerLink]="prevImageURL()" 
+        [disabled]="!hasPrev()"
+        style="justify-self: start;"
+       ><mat-icon>chevron_left</mat-icon></button>
+<mat-card style="width: 50rem">
+    <mat-card-header>
+        <img mat-card-avatar [src]="viewModel().userInfo.profilePicURL"/>
+        <div style="display: flex; flex-direction: column; margin-left: 5px;">
+            <span style="font-size: 1.2em; font-weight: 500;">
+                {{viewModel().userInfo.firstName}} {{viewModel().userInfo.lastName}}
+            </span>
+            <span>{{ viewModel().imageinfo.createdDateTime  | date: 'd MMM, y' }}</span>
+        </div>
+    </mat-card-header>
+    <mat-card-content>
+        <p>{{viewModel().imageinfo.comment}}</p>
+    </mat-card-content>
+    <img mat-card-image [src]="imageURL()!"/>
+    <mat-card-actions style="display: flex; gap: 10px; flex-direction: column; align-items: start;">
+        <!-- <div style="display: flex; gap: 10px;">
+            <button mat-raised-button color="primary"><mat-icon>thumb_up</mat-icon>Харесване</button>
+            <button mat-raised-button color="accent"><mat-icon>comment</mat-icon>Коментари</button>
+        </div>
+        <div style="display: flex; flex-direction: row; gap: 5px; align-items: center;  width: 100%;">
+            <img mat-card-avatar src="../../../../assets/profile.jpg"/>
+            <mat-form-field style="flex-grow: 1;">
+                <input matInput placeholder="Напишете коментар ..."/>
+            </mat-form-field>
+            <button mat-icon-button style="align-self: start; margin-top: 5px;"><mat-icon>add_comment</mat-icon></button>
+        </div> -->
+    </mat-card-actions>
+</mat-card>
+        <button mat-fab 
+            [routerLink]="nextImageURL()" 
+            [disabled]="!hasNext()"
+            ><mat-icon>chevron_right</mat-icon></button>
 </div>

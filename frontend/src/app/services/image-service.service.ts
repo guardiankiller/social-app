@@ -5,6 +5,7 @@ import { Observable, catchError, map, of, switchMap, zip } from 'rxjs';
 import { Page } from '../models/page.model';
 import { ImageView } from '../models/image.view.model';
 import { makeError } from '../utils/errors';
+import { UserInfoService } from './user-info.service';
 
 type NextPrev = {
   next: string | undefined, 
@@ -21,20 +22,22 @@ type ImageAndBlobURL = {
 })
 export class ImageServiceService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private userInfo: UserInfoService) { }
 
   public getImageView(username: string, imageId: number): Observable<ImageView> {
     return zip(
       this.getImageInfo(imageId, username),
-      this.getNextAndPrev(imageId, username)
+      this.getNextAndPrev(imageId, username),
+      this.userInfo.getUserInfoBasic(username),
     ).pipe(catchError((error: HttpErrorResponse) => {
       console.log(error);
       throw makeError(error);
-    }), map(([image, nextPrev]) => ({
+    }), map(([image, nextPrev, userInfo]) => ({
         imageinfo: image.imageInfo, 
         imageURL: image.blobURL, 
         prev: nextPrev.prev,
-        next: nextPrev.next
+        next: nextPrev.next,
+        userInfo
       } as ImageView)));
   }
 

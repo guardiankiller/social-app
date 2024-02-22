@@ -4,6 +4,6 @@ export interface Image {
     url: string
     fileSize: number
     visiblity: string
-    createdDateTime: number[]
+    createdDateTime: string
     comment?: string
 }

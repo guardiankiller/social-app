@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { LoginInfoStatus } from 'src/app/models/login.model';
+import { AppService } from 'src/app/services/app.service';
 import { UserAuthenticationService } from 'src/app/services/user-authentication.service';
 
 @Component({
@@ -30,6 +31,7 @@ export class LoginPageComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private app: AppService,
     private bar: MatSnackBar,
     private service: UserAuthenticationService) {
 
@@ -43,7 +45,7 @@ export class LoginPageComponent implements OnInit {
       });
       effect(()=> {
         if(this.isFail()) {
-          bar.open(this.error() || 'Unknown error', 'OK');;
+          app.error = this.error() || 'Unknown error';
         }
       });
     }

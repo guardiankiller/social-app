@@ -17,6 +17,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { authInterceptorProvider } from './services/user-authentication.service';
 import { ImageViewPageComponent } from './components/pages/image-view-page/image-view-page.component';
 import { ErrorPageComponent } from './components/pages/error-page/error-page.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -37,9 +38,9 @@ import { ErrorPageComponent } from './components/pages/error-page/error-page.com
     AppMaterialModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule
   ],
-  providers: [  importProvidersFrom(HttpClientModule), authInterceptorProvider ],
+  providers: [  importProvidersFrom(HttpClientModule), authInterceptorProvider, DatePipe ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

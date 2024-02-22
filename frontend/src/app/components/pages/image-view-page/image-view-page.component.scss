@@ -1,0 +1,21 @@
+.profile-panel {
+    display: flex; 
+    align-items: center; 
+    gap: 20px;
+}
+
+.profile-panel-image {
+    border-radius: 50% !important;
+    width: 3%;
+    height: 3%;
+}
+
+.profile-panel-name {
+    display: flex; 
+    flex-direction: column; 
+    justify-content: baseline;
+
+    * {
+        margin-bottom: 0;
+    }
+}

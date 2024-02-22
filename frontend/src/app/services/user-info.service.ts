@@ -2,7 +2,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, WritableSignal, signal } from '@angular/core';
 import { User } from '../models/user.model';
 import { Status } from '../models/status.model';
-import { catchError, of } from 'rxjs';
+import { catchError, map, of, switchMap } from 'rxjs';
+import { UserBasicInfo } from '../models/user.basic.model';
 
 interface UserResponse { 
   username: string
@@ -13,6 +14,7 @@ interface UserResponse {
   gender: string
   createdDateTime: string
   updatedDateTime: string
+  url?: string
 }
 
 @Injectable({
@@ -52,5 +54,27 @@ export class UserInfoService {
         gender: success.gender
       });
     });
+  }
+
+  public getUserInfoBasic(username: string) {
+    return this.http
+      .get<UserResponse>(`/api/users/${username}`)
+      .pipe(switchMap(user => {
+        let userInfo: UserBasicInfo = {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          username: user.username,
+          profilePicURL: "../../../../assets/profile.jpg"
+        }
+        if(user.url) {
+          return this.http
+          .get(user.url, { responseType: 'blob' })
+          .pipe(map(blob => {
+            userInfo.profilePicURL = URL.createObjectURL(blob);
+            return userInfo;
+          }))
+        }
+        return of(userInfo);
+      }))
   }
 }
