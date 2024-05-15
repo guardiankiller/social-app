@@ -6,7 +6,7 @@ import { UserProfileComponent } from '../components/pages/user-profile/user-prof
 import { LoginPageComponent } from '../components/pages/login-page/login-page.component';
 import { isLoggedIn, isNotLoggedIn } from '../utils/guards';
 import { ImageViewPageComponent } from '../components/pages/image-view-page/image-view-page.component';
-import { resloveImageView } from '../utils/resolvers';
+import { resloveImageView, resloveUserView } from '../utils/resolvers';
 import { ErrorPageComponent } from '../components/pages/error-page/error-page.component';
 
 const routes: Routes = [
@@ -18,7 +18,10 @@ const routes: Routes = [
   {
     component: UserProfileComponent,
     path: 'users/:username',
-    canActivate: [ isLoggedIn ]
+    canActivate: [ isLoggedIn ],
+    resolve: {
+      result: resloveUserView
+    }
   },
   {
     component: ImageViewPageComponent,

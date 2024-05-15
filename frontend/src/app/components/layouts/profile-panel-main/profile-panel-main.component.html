@@ -1,6 +1,8 @@
 <mat-card style="width: 100%;">
     <mat-card-content class="profile-panel">
-        <img [src]="user?.profilePic" mat-card-lg-image class="profile-panel-image"/>
+        <a [routerLink]="user?.userProfileURL">
+            <img [src]="user?.profilePic" mat-card-lg-image class="profile-panel-image"/>
+        </a>
         <div class="profile-panel-name">
             <span class="mat-headline-4">{{user?.firstName}} {{user?.lastName}}</span>
             <span class="mat-body">{{user?.nFriends}} приятели</span>

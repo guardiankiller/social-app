@@ -124,6 +124,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return profileImageUrl;
     }
 
+    private Integer getCurrProfileImageId(User userEntity) {
+        Optional<UserImage> opt = imageRepo.getCurrentProfileImageByUsername(userEntity.getUsername());
+        Integer profileImageId = null;
+        if (opt.isPresent()) {
+            UserImage image = opt.orElseThrow();
+            profileImageId = image.getId();
+        }
+        return profileImageId;
+    }
+
     private UserFullDTO userFullDTO(User userEntity) {
         return new UserFullDTO(
                 userEntity.getUsername(),
@@ -134,7 +144,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 userEntity.getGender(),
                 userEntity.getCreatedDateTime(),
                 userEntity.getUpdatedDateTime(),
-                getCurrProfileImageURL(userEntity));
+                getCurrProfileImageURL(userEntity),
+            getCurrProfileImageId(userEntity));
     }
 
     @Override

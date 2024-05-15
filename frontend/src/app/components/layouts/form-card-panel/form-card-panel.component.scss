@@ -1,0 +1,19 @@
+.input-form {
+    display: flex; 
+    flex-direction: column; 
+    gap: 5px;
+    span {
+        text-align: center;
+    }
+}
+
+.input-card {
+    width: 500px; 
+    margin-left: auto; 
+    margin-right: auto; 
+    margin-top: 50px;
+}
+
+.copyright {
+    margin-top: 10px;
+}

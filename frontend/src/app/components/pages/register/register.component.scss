@@ -1,0 +1,9 @@
+.name-field {
+    display: flex; 
+    flex-direction: row; 
+    gap: 5px;
+
+    * {
+        flex-grow: 1;
+    }
+}

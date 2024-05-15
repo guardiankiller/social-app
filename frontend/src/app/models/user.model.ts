@@ -7,4 +7,6 @@ export interface User {
     dateOfBirth: Date
     gender: string
     profilePic: string
+    currentUser: boolean
+    userProfileURL?: string
 }

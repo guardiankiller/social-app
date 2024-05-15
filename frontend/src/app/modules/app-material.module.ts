@@ -28,7 +28,7 @@ let modules: any[] = [
     MatListModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
-    MatSelectModule
+    MatSelectModule,
 ]
 
 @NgModule({

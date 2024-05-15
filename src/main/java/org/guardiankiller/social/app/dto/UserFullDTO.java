@@ -19,4 +19,5 @@ public class UserFullDTO {
     private final LocalDateTime createdDateTime;
     private final LocalDateTime updatedDateTime;
     private final String url;
+    private final Integer currProfileImageId;
 }
