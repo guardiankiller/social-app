@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'form-card-panel',
@@ -8,6 +8,8 @@ import { FormGroup } from '@angular/forms';
 })
 export class FormCardPanelComponent {
 
-    @Input("formGroup") form: FormGroup = new FormGroup({})
+    @Input("formGroup") form: FormGroup = this.fb.group({})
     @Input("title") title: string = "Input Box"
+
+    constructor(public fb: FormBuilder) {}
 }

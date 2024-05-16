@@ -1,0 +1,39 @@
+<form-card-panel title="Edit user" [formGroup]="form">
+    <div class="img-download">
+        <img [src]="user.profilePic" style="border-radius: 100%; width: 200px; align-self: center;"/>
+        <a><mat-icon>edit_square</mat-icon></a>
+    </div>
+    <span  class="mat-headline-6">Change personal info</span>
+    <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username"/>
+    </mat-form-field>
+    <div class="name-field">
+        <mat-form-field appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="firstName"/>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="lastName"/>
+        </mat-form-field>
+    </div>
+    <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email"/>
+    </mat-form-field>
+    <span  class="mat-headline-6">Change password</span>
+    <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password"/>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Confirm Password</mat-label>
+        <input matInput formControlName="confirm"/>
+    </mat-form-field>
+    <button mat-raised-button 
+        color="primary" 
+    >
+        <span>Login</span>
+    </button>
+</form-card-panel>

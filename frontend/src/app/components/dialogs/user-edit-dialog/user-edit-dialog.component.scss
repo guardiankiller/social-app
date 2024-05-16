@@ -1,0 +1,30 @@
+
+.name-field {
+    display: flex; 
+    flex-direction: row; 
+    gap: 5px;
+
+    * {
+        flex-grow: 1;
+    }
+}
+.img-download {
+    position: relative;
+}
+
+.img-download > a {
+    position: absolute;
+    background: rgba($color: #000000, $alpha: 0.4);
+    color: rgba($color: #fff, $alpha: 0.4);
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+    top: 0;
+    left: 0;
+
+    * {
+        margin-left: 90px;
+        margin-top: 90px;
+        transform: scale(6);
+    }
+  }
