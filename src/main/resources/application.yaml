@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/social-app?useSSL=false&allowPublicKeyRetrieval=true
-    username: root
-    password: misho.27091968
+    url: ${db_url}
+    username: ${db_username}
+    password: ${db_password}
 
   liquibase:
     change-log: classpath:db/changelog-master.xml
