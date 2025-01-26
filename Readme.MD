@@ -8,7 +8,7 @@ The Social App is an application to create, comment and like posts of your frien
  
 ## Preview images
 
-<img src="https://github.com/guardiankiller/social-app/blob/maiu/preview/viber_image_2025-01-26_22-51-39-662.png?raw=true" width="800"/>
+<img src="https://github.com/guardiankiller/social-app/blob/main/preview/viber_image_2025-01-26_22-51-39-662.png?raw=true" width="800"/>
 <img src="https://github.com/guardiankiller/social-app/blob/main/preview/viber_image_2025-01-26_22-51-48-958.png?raw=true" width="800"/>
 <img src="https://github.com/guardiankiller/social-app/blob/main/preview/viber_image_2025-01-26_22-52-37-172.png?raw=true" width="800"/>
 <img src="https://github.com/guardiankiller/social-app/blob/main/preview/viber_image_2025-01-26_22-52-51-344.png?raw=true" width="800"/>
